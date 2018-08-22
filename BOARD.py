@@ -61,3 +61,5 @@ class draw_board():
 			for i in range(38,45):
 				for j in range(90,97):
 					board[i][j+k]="#"
+
+	

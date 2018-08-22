@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import sys
+import signal
 import os
 import time
 import BOARD,ENEMY,PLAYER
@@ -20,7 +21,8 @@ ENEMY.Enemies.append(enemy)
 initial_time = round(time.time())
 enemy_time = round(time.time())
 val=4
-os.system('spd-say "Welcome to my game\n"')
+bgmusic = subprocess.Popen(['xdg-open','./mario_08.wav'])
+
  # THE GAME
 
 while (PLAYER.life > 0):
@@ -37,9 +39,13 @@ while (PLAYER.life > 0):
 	elif(input=='d' or input=='D'):
 		mario.update_position(1)
 	elif(input=='w' or input=='W'):
+		do = subprocess.Popen(['mplayer','./smb_jumpsmall.wav'])
 		PLAYER.jump=True
 	elif(input=='q' or input=='Q'):
+		os.killpg(os.getpgid(bgmusic.pid), signal.SIGTERM)
 		sys.exit(0)
+		os.system('clear')
+
 	mario.jumper()
 	if round(time.time()) - initial_time == val:
 		initial_time=round(time.time())
@@ -64,8 +70,9 @@ while (PLAYER.life > 0):
 	print("KILL:: "+str(ENEMY.kill))
 	mario.print_board(BOARD.board_height,BOARD.board_width)
 	if(PLAYER.life==0):
+		do = subprocess.Popen(['mplayer','./smw_game_over.wav'])
+		os.killpg(os.getpgid(bgmusic.pid), signal.SIGTERM)
 		os.system('clear')
-		do = subprocess.Popen(['mplayer','/drive1/sem3/SSAD/Assignment1/mario/smw_game_over.wav'])
 		print("Game Over")
 	if(mario.y==1045):
 		os.system('clear')
