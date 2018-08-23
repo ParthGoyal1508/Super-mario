@@ -1,3 +1,5 @@
+import sys
+import os
 from PERSON import Person
 import BOARD,PLAYER
 import os
@@ -31,20 +33,20 @@ class Bug(Person):
 	def mario_kill(self):
 		if BOARD.board[self.x][self.y-2]=='0' and BOARD.board[self.x][self.y-3]=='0' and BOARD.board[self.x+1][self.y-2]=='[' and BOARD.board[self.x+1][self.y-3]==']' :
 			self.__remove_enemy()
-			Enemies.__remove(self)
+			Enemies.remove(self)
 			PLAYER.life-=1
-			do = subprocess.Popen(['mplayer','./smb_mariodie.wav'])
-			PLAYER.mario.__remove_prev_mario()
+			os.system('spd-say "MARIO DIED\n"')
+			PLAYER.mario.remove_prev_mario()
 			PLAYER.mario.y-=80
 			if(BOARD.board[PLAYER.mario.x][PLAYER.mario.y-1]=="#"):
 				PLAYER.mario.y-=8
 
 		elif  BOARD.board[self.x][self.y+2]=='0' and BOARD.board[self.x][self.y+3]=='0' and BOARD.board[self.x+1][self.y+2]==']'and BOARD.board[self.x+1][self.y+3]=='[':
 			self.__remove_enemy()
-			Enemies.__remove(self)
+			Enemies.remove(self)
 			PLAYER.life-=1
-			do = subprocess.Popen(['mplayer','./smb_mariodie.wav'])
-			PLAYER.mario.__remove_prev_mario()
+			os.system('spd-say "MARIO DIED\n"')
+			PLAYER.mario.remove_prev_mario()
 			PLAYER.mario.y-=80
 			if(BOARD.board[PLAYER.mario.x][PLAYER.mario.y-1]=="#"):
 				PLAYER.mario.y-=8
@@ -53,6 +55,6 @@ class Bug(Person):
 		global kill
 		if(BOARD.board[self.x-1][self.y]==']' or BOARD.board[self.x-1][self.y]=='[' or BOARD.board[self.x-1][self.y+1]==']' or BOARD.board[self.x-1][self.y+1]=='[' ):
 			self.__remove_enemy()
-			Enemies.__remove(self)
+			Enemies.remove(self)
 			PLAYER.score+=5
 			kill+=1

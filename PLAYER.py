@@ -1,3 +1,5 @@
+import sys
+import os
 from PERSON import Person
 import BOARD,ENEMY
 import time
@@ -48,7 +50,7 @@ class Player(Person):
 		BOARD.board[self.x+1][self.y+1]=']'
 		BOARD.board[self.x+1][self.y+2]='['
 
-	def __remove_prev_mario(self):
+	def remove_prev_mario(self):
 		for i in range(0,4):
 			BOARD.board[self.x][self.y+i]=' '
 		for i in range(1,3):
@@ -58,35 +60,35 @@ class Player(Person):
 		global score
 		if(BOARD.board[self.x+1][self.y]=='0' and type==-1):
 			BOARD.board[self.x+1][self.y]=' '
-			do = subprocess.Popen(['mplayer','./smb_coin.wav'])
+			os.system('aplay ./smb_coin.wav &')
 			score+=1
 
 		if(BOARD.board[self.x+1][self.y+3]=='0' and type==1):
 			BOARD.board[self.x+1][self.y+3]=' '
-			do = subprocess.Popen(['mplayer','./smb_coin.wav'])
+			os.system('aplay ./smb_coin.wav &')
 			score+=1
 
 		if(BOARD.board[self.x][self.y+4]=='0' and type==1):
 			BOARD.board[self.x][self.y+4]=' '
-			do = subprocess.Popen(['mplayer','./smb_coin.wav'])
+			os.system('aplay ./smb_coin.wav &')
 			score+=1
 
 		if(BOARD.board[self.x][self.y-1]=='0' and type==-1):
 			BOARD.board[self.x][self.y-1]=' '
-			do = subprocess.Popen(['mplayer','./smb_coin.wav'])
+			os.system('aplay ./smb_coin.wav &')
 			score+=1
 
 
 		if((self.y<=1 and type==-1) or (self.y>=BOARD.board_width-6 and type==1) or(BOARD.board[self.x][self.y+4]==':' and type==1) or (BOARD.board[self.x+1][self.y+3]==':' and type==1) or (BOARD.board[self.x][self.y-1]==':' and type==-1) or (BOARD.board[self.x+1][self.y]==':' and type==-1) or (BOARD.board[self.x][self.y+4]=='#' and type==1) or (BOARD.board[self.x][self.y-1]=='#' and type==-1) or (BOARD.board[self.x+1][self.y+3]=='#' and type==1) ):
 			self.set_position()
 		else:
-			self.__remove_prev_mario()
+			self.remove_prev_mario()
 			self.y+=type
 			self.set_position()
 
 	def jumper(self):
 		global jump
-		self.__remove_prev_mario()
+		self.remove_prev_mario()
 		if(BOARD.board[self.x-1][self.y]==':' or BOARD.board[self.x-1][self.y+1]==':' or BOARD.board[self.x-1][self.y+2]==':' or BOARD.board[self.x-1][self.y+3]==':' ):
 			jump=False
 		if(jump==True):
@@ -105,27 +107,27 @@ class Player(Person):
 	def score(self):
 		global score
 		if(BOARD.board[self.x+2][self.y]=='0' and BOARD.board[self.x+2][self.y]==':'):
-			do = subprocess.Popen(['mplayer','./smb_coin.wav'])
+			os.system('aplay ./smb_coin.wav &')
 			score+=1
 			BOARD.board[self.x+2][self.y]=' '
 		if(BOARD.board[self.x+1][self.y]=='0' and BOARD.board[self.x+1][self.y]==':'):
-			do = subprocess.Popen(['mplayer','./smb_coin.wav'])
+			os.system('aplay ./smb_coin.wav &')
 			score+=1
 			BOARD.board[self.x+1][self.y]=' '
 		if(BOARD.board[self.x+1][self.y+3]=='0' and BOARD.board[self.x+1][self.y+3]==':'):
-			do = subprocess.Popen(['mplayer','./smb_coin.wav'])
+			os.system('aplay ./smb_coin.wav &')
 			score+=1
 			BOARD.board[self.x+1][self.y+3]=' '
 		if(BOARD.board[self.x+2][self.y+1]=='0' and BOARD.board[self.x+3][self.y+1]==':'):
-			do = subprocess.Popen(['mplayer','./smb_coin.wav'])
+			os.system('aplay ./smb_coin.wav &')
 			score+=1
 			BOARD.board[self.x+2][self.y+1]=' '
 		if(BOARD.board[self.x+2][self.y+2]=='0' and BOARD.board[self.x+3][self.y+2]==':'):
-			do = subprocess.Popen(['mplayer','./smb_coin.wav'])
+			os.system('aplay ./smb_coin.wav &')
 			score+=1
 			BOARD.board[self.x+2][self.y+2]=' '
 		if(BOARD.board[self.x+2][self.y+3]=='0' and BOARD.board[self.x+2][self.y+3]==':'):
-			do = subprocess.Popen(['mplayer','./smb_coin.wav'])
+			os.system('aplay ./smb_coin.wav &')
 			score+=1
 			BOARD.board[self.x+2][self.y+3]=' '
 

@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 
 import sys
-import signal
 import os
+import signal
 import time
 import BOARD,ENEMY,PLAYER
 import NonBlockingInput as keyb
 import subprocess
 
-#Initialisation
+#----------------------Initialisation--------------------------------------
 
 screen=BOARD.draw_board(BOARD.board_height,BOARD.board_width)
 mario=PLAYER.mario
@@ -21,30 +21,34 @@ ENEMY.Enemies.append(enemy)
 initial_time = round(time.time())
 enemy_time = round(time.time())
 val=4
-bgmusic = subprocess.Popen(['xdg-open','./mario_08.wav'])
+bgmusic = subprocess.Popen(['xdg-open','./main_theme.ogg'])
 
- # THE GAME
+ # -------------------------------THE GAME---------------------------------
 
 while (PLAYER.life > 0):
 	screen.bush_generator()
 	screen.pipe_generator()
 	screen.brick_generator(BOARD.board_height,BOARD.board_width)
 	mario.score()
+
 	if key.kbhit():
 		input=key.getch()
 	else:
 		input='{'
+
 	if(input=='a' or input=='A'):
 		mario.update_position(-1)
 	elif(input=='d' or input=='D'):
 		mario.update_position(1)
 	elif(input=='w' or input=='W'):
-		do = subprocess.Popen(['mplayer','./smb_jumpsmall.wav'])
+		os.system('aplay ./smb_jumpsmall.wav &')
 		PLAYER.jump=True
 	elif(input=='q' or input=='Q'):
-		os.killpg(os.getpgid(bgmusic.pid), signal.SIGTERM)
-		sys.exit(0)
 		os.system('clear')
+		os.killpg(os.getpgid(bgmusic.pid), signal.SIGTERM)
+		print("YOU QUIT")
+		print("SEE YOU AGAIN")
+		sys.exit(0)
 
 	mario.jumper()
 	if round(time.time()) - initial_time == val:
@@ -70,12 +74,14 @@ while (PLAYER.life > 0):
 	print("KILL:: "+str(ENEMY.kill))
 	mario.print_board(BOARD.board_height,BOARD.board_width)
 	if(PLAYER.life==0):
-		do = subprocess.Popen(['mplayer','./smw_game_over.wav'])
 		os.killpg(os.getpgid(bgmusic.pid), signal.SIGTERM)
 		os.system('clear')
 		print("Game Over")
+		sys.exit(0)
 	if(mario.y==1045):
+		os.killpg(os.getpgid(bgmusic.pid), signal.SIGTERM)
 		os.system('clear')
 		os.system('spd-say "YOU WIN\n"')
 		print("YOU WIN")
-	time.sleep(0.02)
+		sys.exit(0)
+	time.sleep(0.015)
